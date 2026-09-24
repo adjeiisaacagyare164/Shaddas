@@ -1,0 +1,422 @@
+/* ==========================================================================
+   SHADAS LUXURY DESIGN SYSTEM
+   Palette: Red + White + Cream Blend with Dark Mode Support
+   ========================================================================== */
+
+:root {
+  /* Brand Crimson & Reds */
+  --color-primary-50: #FEF2F2;
+  --color-primary-100: #FEE2E2;
+  --color-primary-200: #FECACA;
+  --color-primary-300: #FCA5A5;
+  --color-primary-400: #F87171;
+  --color-primary-500: #EF4444;
+  --color-primary-600: #DC2626;
+  --color-primary-700: #B91C1C;
+  --color-primary-800: #991B1B;
+  --color-primary-900: #7F1D1D;
+  --color-primary-950: #450A0A;
+
+  /* Rich Cream & Warm Ivory Palette (Light Mode) */
+  --bg-body: #FBF8F3;            /* Rich warm silk cream */
+  --bg-surface: #FFFFFF;         /* Crisp pure white */
+  --bg-surface-soft: #F4EDE4;    /* Warm cream container */
+  --bg-surface-cream: #F8F2EA;   /* Silky cream card */
+  --bg-surface-elevated: #FFFDF9; /* Pure warm ivory */
+  --bg-surface-hover: #ECE3D6;
+
+  --text-primary: #1F1B18;       /* Deep warm charcoal */
+  --text-secondary: #5C544D;     /* Warm roasted stone */
+  --text-muted: #948B82;         /* Soft warm stone */
+  --text-inverse: #FFFFFF;
+
+  --border-subtle: #EBE2D5;
+  --border-strong: #D9CBBA;
+  --border-focus: #B91C1C;
+
+  /* Accent Red */
+  --brand-red: #B91C1C;
+  --brand-red-hover: #991B1B;
+  --brand-red-light: #FEE8E8;
+  --brand-red-glow: rgba(185, 28, 28, 0.22);
+  --brand-red-gradient: linear-gradient(135deg, #B91C1C 0%, #881313 100%);
+  --brand-cream-gradient: linear-gradient(180deg, #FBF8F3 0%, #F5EDE3 100%);
+
+  /* WhatsApp Green */
+  --whatsapp-green: #25D366;
+  --whatsapp-green-dark: #128C7E;
+  --whatsapp-glow: rgba(37, 211, 102, 0.25);
+
+  /* Accents */
+  --accent-gold: #D97706;
+  --accent-gold-light: #FEF3C7;
+  --success: #15803D;
+  --success-bg: #DCFCE7;
+  --danger: #DC2626;
+  --danger-bg: #FEE2E2;
+  --warning: #B45309;
+  --warning-bg: #FEF3C7;
+
+  /* Typography */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-price: 'Space Grotesk', 'Outfit', sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(40, 20, 15, 0.04);
+  --shadow-md: 0 4px 10px -2px rgba(185, 28, 28, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(60, 30, 20, 0.07), 0 4px 8px -2px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 24px 36px -8px rgba(60, 30, 20, 0.09), 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+  --shadow-crimson: 0 10px 25px -4px rgba(185, 28, 28, 0.35);
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Max Widths */
+  --container-max: 1240px;
+}
+
+/* Dark Mode Theme */
+body.theme-dark {
+  --bg-body: #110E10;          /* Deep rich espresso charcoal */
+  --bg-surface: #1C1719;       /* Dark ruby-tinted slate */
+  --bg-surface-soft: #261F23;  /* Elevated warm charcoal */
+  --bg-surface-cream: #2E252A;
+  --bg-surface-elevated: #332A30;
+  --bg-surface-hover: #3E333A;
+
+  --text-primary: #FAF7F2;     /* Warm silk ivory */
+  --text-secondary: #CEC4BA;   /* Soft cream stone */
+  --text-muted: #91867D;       /* Muted grey */
+  --text-inverse: #1C1719;
+
+  --border-subtle: #31262B;
+  --border-strong: #4D3B45;
+  --border-focus: #EF4444;
+
+  --brand-red: #DC2626;
+  --brand-red-hover: #EF4444;
+  --brand-red-light: rgba(220, 38, 38, 0.2);
+  --brand-red-glow: rgba(239, 68, 68, 0.35);
+  --brand-red-gradient: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+  --brand-cream-gradient: linear-gradient(180deg, #161214 0%, #110E10 100%);
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 25px -4px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 20px 35px -5px rgba(0, 0, 0, 0.7);
+  --shadow-crimson: 0 10px 30px -5px rgba(220, 38, 38, 0.45);
+}
+
+/* ==========================================================================
+   BASE & RESET
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Layout Utilities */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* ==========================================================================
+   BUTTONS & ACTIONS
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn-primary {
+  background: var(--brand-red-gradient);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px 0 var(--brand-red-glow);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-800) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 var(--brand-red-glow);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--bg-surface-cream);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-surface-hover);
+  border-color: var(--border-strong);
+  color: var(--brand-red);
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 4px 15px var(--whatsapp-glow);
+}
+
+.btn-whatsapp:hover {
+  background: linear-gradient(135deg, #2EE070 0%, #159E8E 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--whatsapp-glow);
+}
+
+.btn-outline-red {
+  background-color: transparent;
+  color: var(--brand-red);
+  border: 1.5px solid var(--brand-red);
+}
+
+.btn-outline-red:hover {
+  background-color: var(--brand-red);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--brand-red-glow);
+}
+
+.btn-sm {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+  padding: 0.95rem 2rem;
+  font-size: 1.0625rem;
+  border-radius: var(--radius-md);
+}
+
+.btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   CARDS & CONTAINERS
+   ========================================================================== */
+
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  overflow: hidden;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+}
+
+.badge-red {
+  background-color: var(--brand-red-light);
+  color: var(--brand-red);
+  border: 1px solid rgba(185, 28, 28, 0.2);
+}
+
+.badge-success {
+  background-color: var(--success-bg);
+  color: var(--success);
+}
+
+.badge-danger {
+  background-color: var(--danger-bg);
+  color: var(--danger);
+}
+
+.badge-cream {
+  background-color: var(--bg-surface-cream);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   FORMS & INPUTS
+   ========================================================================== */
+
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition: all var(--transition-fast);
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--brand-red-glow);
+}
+
+.form-input::placeholder, .form-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Price formatting */
+.price-tag {
+  font-family: var(--font-price);
+  font-weight: 700;
+  color: var(--brand-red);
+  letter-spacing: -0.01em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-red);
+}
