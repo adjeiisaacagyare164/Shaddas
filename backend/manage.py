@@ -7,10 +7,9 @@ def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
     try:
-        from django.        http://localhost:8000 python manage.py seed_        S        cd C:\Users\user\OneDrive\Desktop\Shaddas\frontend
-        npm start.management import execute_from_command_line
+        from django.core.management import execute_from_command_line
     except ImportError as exc:
-               Starting development server at http://127.0.0.1:8000/ raise ImportError(
+        raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"

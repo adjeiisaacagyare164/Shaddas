@@ -38,7 +38,7 @@ This will compile your project and store the build artifacts in the `dist/` dire
 
 ## Vercel deployment
 
-Set the Vercel project root directory to `frontend`. Vercel will use the included `vercel.json` and the `npm run build` script. The frontend uses `http://localhost:8000/api` locally and same-origin `/api` in production, so route `/api/*` to the deployed Django backend using your Vercel project routing or a reverse proxy.
+Set the Vercel project root directory to `frontend`. Vercel will use the included `vercel.json` and the `npm run build` script. For a separate frontend deployment, edit `public/runtime-config.js` before deploying and set `apiUrl` to the deployed Django URL ending in `/api`, for example `https://your-backend.vercel.app/api`.
 
 Deploy the Django backend as a separate Vercel project with its root directory set to `backend`. Configure `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS`, `CORS_ALLOWED_ORIGINS`, and PostgreSQL database variables in that project. SQLite and local media storage are suitable for development only.
 
