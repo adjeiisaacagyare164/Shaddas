@@ -126,7 +126,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
             <div class="section-card-header">
               <span class="step-num">2</span>
               <div>
-                <h3 class="card-title">About Shadas Section</h3>
+                <h3 class="card-title">About Shaddas Section</h3>
                 <p class="card-desc">Share your brand story, mission, and why customers in Ghana should trust your store.</p>
               </div>
             </div>
@@ -141,7 +141,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
                   id="aboutTitle"
                   [(ngModel)]="cmsData.about_title" 
                   name="aboutTitle"
-                  placeholder="e.g. About Shadas" 
+                  placeholder="e.g. About Shaddas"
                   class="form-input"
                   required
                 >

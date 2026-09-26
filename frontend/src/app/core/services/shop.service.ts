@@ -12,7 +12,7 @@ export class ShopService {
   private readonly API_URL = `${API_BASE_URL}/shop`;
 
   private defaultShop: Shop = {
-    name: 'Shadas',
+    name: 'Shaddas',
     description: 'Discover luxury and everyday essentials curated for Ghana. Place orders directly via WhatsApp.',
     whatsapp_number: '+233 53 558 9099',
     phone: '+233 53 558 9099',

@@ -11,9 +11,9 @@ class HomepageContent(models.Model):
     hero_image = models.TextField(blank=True, default='') # URL / Base64 / media path
     hero_button_text = models.CharField(max_length=50, default='Shop Now')
 
-    about_title = models.CharField(max_length=255, default='About Shadas')
+    about_title = models.CharField(max_length=255, default='About Shaddas')
     about_description = models.TextField(
-        default='Welcome to Shadas. We are dedicated to bringing you top-tier quality products and a seamless, personalized shopping journey. With our direct WhatsApp ordering system, you get direct communication, custom support, and prompt delivery across Ghana.'
+        default='Welcome to Shaddas. We are dedicated to bringing you top-tier quality products and a seamless, personalized shopping journey. With our direct WhatsApp ordering system, you get direct communication, custom support, and prompt delivery across Ghana.'
     )
     about_image = models.TextField(blank=True, default='')
     about_points = models.JSONField(

@@ -5,7 +5,7 @@ import uuid
 class Shop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='shops')
-    name = models.CharField(max_length=255, default='Shadas')
+    name = models.CharField(max_length=255, default='Shaddas')
     logo = models.TextField(blank=True, default='') # Can store URL or base64
     description = models.TextField(default='Discover premium quality products with direct WhatsApp ordering.')
     whatsapp_number = models.CharField(max_length=50, default='+233 53 558 9099')

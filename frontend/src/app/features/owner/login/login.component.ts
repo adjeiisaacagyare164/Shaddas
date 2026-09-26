@@ -355,7 +355,7 @@ export class OwnerLoginComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.loading.set(false);
-        this.toast.success('Welcome back to Shadas Dashboard!');
+        this.toast.success('Welcome back to Shaddas Dashboard!');
         this.router.navigateByUrl(this.returnUrl);
       },
       error: err => {

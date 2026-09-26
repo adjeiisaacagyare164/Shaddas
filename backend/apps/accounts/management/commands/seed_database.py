@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Seeds initial shop data, categories, sample products, CMS content and owner account'
 
     def handle(self, *args, **options):
-        self.stdout.write('Seeding Shadas database...')
+        self.stdout.write('Seeding Shaddas database...')
 
         # 1. Create or get Owner User
         owner, created = User.objects.get_or_create(
@@ -32,7 +32,7 @@ class Command(BaseCommand):
             id='00000000-0000-0000-0000-000000000001',
             defaults={
                 'owner': owner,
-                'name': 'Shadas',
+                'name': 'Shaddas',
                 'description': 'Discover our curated collection of luxury fashion, statement footwear, and timeless accessories. We deliver directly to you anywhere in Ghana.',
                 'whatsapp_number': '+233 53 558 9099',
                 'phone': '+233 53 558 9099',
@@ -45,7 +45,7 @@ class Command(BaseCommand):
             }
         )
         if not shop_created:
-            shop.name = 'Shadas'
+            shop.name = 'Shaddas'
             shop.whatsapp_number = '+233 53 558 9099'
             shop.save()
         self.stdout.write(self.style.SUCCESS(f'Shop configured: {shop.name} (WhatsApp: {shop.whatsapp_number})'))
@@ -95,7 +95,7 @@ class Command(BaseCommand):
         products_data = [
             {
                 'category': 'Footwear & Sneakers',
-                'name': 'Shadas Air Elite Crimson Runners',
+                'name': 'Shaddas Air Elite Crimson Runners',
                 'price': 680.00,
                 'description': 'Crafted with premium mesh, high-rebound cushioning, and bold crimson accent detailing. Engineered for all-day comfort and striking urban style.',
                 'images': [
@@ -173,7 +173,7 @@ class Command(BaseCommand):
             },
             {
                 'category': 'Watches & Timepieces',
-                'name': 'Shadas Chrono Noir & Rose Gold Dial',
+                'name': 'Shaddas Chrono Noir & Rose Gold Dial',
                 'price': 1150.00,
                 'description': 'Japanese quartz movement with scratch-resistant sapphire crystal glass. Rose gold bevel with a cream dial and genuine leather wristband.',
                 'images': [
@@ -237,8 +237,8 @@ class Command(BaseCommand):
                 'hero_description': 'Experience effortless direct shopping. Browse our curated fashion, luxury bags, and footwear — send your order straight to our WhatsApp in one click.',
                 'hero_image': 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
                 'hero_button_text': 'Shop New Arrivals',
-                'about_title': 'Welcome to Shadas',
-                'about_description': 'At Shadas, we believe shopping should be personal, transparent, and seamless. We hand-select premium items and bring them to your doorstep across Accra and throughout Ghana. When you place an order, you connect directly with us on WhatsApp for fast confirmations and prompt dispatch.',
+                'about_title': 'Welcome to Shaddas',
+                'about_description': 'At Shaddas, we believe shopping should be personal, transparent, and seamless. We hand-select premium items and bring them to your doorstep across Accra and throughout Ghana. When you place an order, you connect directly with us on WhatsApp for fast confirmations and prompt dispatch.',
                 'about_image': 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80',
                 'about_points': [
                     'Direct WhatsApp ordering with the shop owner',

@@ -17,8 +17,8 @@ class PublicHomepageContentView(APIView):
                 hero_description='Explore our curated collections of premium fashion, accessories, and essentials. Order directly with the shop owner via WhatsApp.',
                 hero_image='https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
                 hero_button_text='Shop Now',
-                about_title='About Shadas',
-                about_description='Welcome to Shadas. We are dedicated to bringing you top-tier quality products and a seamless, personalized shopping journey. With our direct WhatsApp ordering system, you get direct communication, custom support, and prompt delivery across Ghana.',
+                about_title='About Shaddas',
+                about_description='Welcome to Shaddas. We are dedicated to bringing you top-tier quality products and a seamless, personalized shopping journey. With our direct WhatsApp ordering system, you get direct communication, custom support, and prompt delivery across Ghana.',
                 about_image='https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80',
                 about_points=[
                     'Direct & instant WhatsApp ordering',
@@ -42,8 +42,8 @@ class OwnerHomepageContentManageView(APIView):
                 hero_description='Explore our curated collections of premium fashion, accessories, and essentials. Order directly with the shop owner via WhatsApp.',
                 hero_image='https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
                 hero_button_text='Shop Now',
-                about_title='About Shadas',
-                about_description='Welcome to Shadas. We are dedicated to bringing you top-tier quality products and a seamless, personalized shopping journey. With our direct WhatsApp ordering system, you get direct communication, custom support, and prompt delivery across Ghana.',
+                about_title='About Shaddas',
+                about_description='Welcome to Shaddas. We are dedicated to bringing you top-tier quality products and a seamless, personalized shopping journey. With our direct WhatsApp ordering system, you get direct communication, custom support, and prompt delivery across Ghana.',
                 about_image='https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80',
                 about_points=[
                     'Direct & instant WhatsApp ordering',

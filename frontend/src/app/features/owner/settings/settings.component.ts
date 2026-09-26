@@ -81,7 +81,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
                 id="shopName"
                 [(ngModel)]="shopData.name" 
                 name="shopName"
-                placeholder="Shadas" 
+                placeholder="Shaddas"
                 class="form-input"
                 required
               >
@@ -313,7 +313,7 @@ export class OwnerSettingsComponent implements OnInit {
   saving = signal(false);
 
   shopData: Shop = {
-    name: 'Shadas',
+    name: 'Shaddas',
     description: '',
     whatsapp_number: '',
     phone: '',

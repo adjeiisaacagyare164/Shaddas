@@ -17,8 +17,8 @@ export class WebsiteService {
     hero_description: 'Experience effortless direct shopping. Browse our curated fashion, luxury bags, and footwear — send your order straight to our WhatsApp in one click.',
     hero_image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80',
     hero_button_text: 'Shop New Arrivals',
-    about_title: 'Welcome to Shadas',
-    about_description: 'At Shadas, we believe shopping should be personal, transparent, and seamless. We hand-select premium items and bring them to your doorstep across Accra and throughout Ghana. When you place an order, you connect directly with us on WhatsApp for fast confirmations and prompt dispatch.',
+    about_title: 'Welcome to Shaddas',
+    about_description: 'At Shaddas, we believe shopping should be personal, transparent, and seamless. We hand-select premium items and bring them to your doorstep across Accra and throughout Ghana. When you place an order, you connect directly with us on WhatsApp for fast confirmations and prompt dispatch.',
     about_image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80',
     about_points: [
       'Direct WhatsApp ordering with the shop owner',

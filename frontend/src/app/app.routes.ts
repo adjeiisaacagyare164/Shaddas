@@ -34,7 +34,7 @@ export const routes: Routes = [
   {
     path: 'owner/login',
     loadComponent: () => import('./features/owner/login/login.component').then(m => m.OwnerLoginComponent),
-    title: 'Owner Login — Shadas'
+    title: 'Owner Login — Shaddas'
   },
 
   // Protected Owner Dashboard

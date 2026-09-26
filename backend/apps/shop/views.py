@@ -12,7 +12,7 @@ class PublicShopView(APIView):
         shop = Shop.objects.first()
         if not shop:
             shop = Shop.objects.create(
-                name='Shadas',
+                name='Shaddas',
                 whatsapp_number='+233 53 558 9099',
                 phone='+233 53 558 9099',
                 email='info@shadas.com',
@@ -28,7 +28,7 @@ class OwnerShopManageView(APIView):
         shop = Shop.objects.first()
         if not shop:
             shop = Shop.objects.create(
-                name='Shadas',
+                name='Shaddas',
                 whatsapp_number='+233 53 558 9099',
                 phone='+233 53 558 9099',
                 email='info@shadas.com',

@@ -216,7 +216,7 @@ import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/
                   id="prodName"
                   [(ngModel)]="formData.name" 
                   name="prodName"
-                  placeholder="e.g. Shadas Italian Leather Loafers" 
+                  placeholder="e.g. Shaddas Italian Leather Loafers"
                   class="form-input"
                   required
                 >

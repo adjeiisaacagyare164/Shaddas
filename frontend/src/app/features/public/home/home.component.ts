@@ -75,7 +75,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
             <div class="hero-image-card">
               <img 
                 [src]="websiteService.homepageContent().hero_image || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80'" 
-                alt="Shadas Luxury Storefront"
+                alt="Shaddas Luxury Storefront"
                 class="hero-main-img"
               >
               <div class="floating-badge">
@@ -219,7 +219,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
             <div class="about-img-card">
               <img 
                 [src]="websiteService.homepageContent().about_image || 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80'" 
-                alt="About Shadas"
+                alt="About Shaddas"
                 class="about-img"
               >
               <div class="about-stat-overlay">
