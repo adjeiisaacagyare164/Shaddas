@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import dotenv
+import dj_database_url
 
 # Load environment variables
 dotenv.load_dotenv()
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,11 +69,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database Configuration (PostgreSQL with SQLite fallback)
-DB_ENGINE = os.getenv('DB_ENGINE', 'django.db.backends.sqlite3')
-DB_NAME = os.getenv('DB_NAME', '')
-
-if DB_ENGINE == 'django.db.backends.postgresql' or (DB_NAME and 'postgresql' in DB_ENGINE):
+# Database Configuration
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+elif os.getenv('DB_ENGINE', '').endswith('postgresql') or 'postgresql' in os.getenv('DB_ENGINE', ''):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -118,6 +126,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STORAGES = {
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage'},
+}
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -165,6 +177,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 SECURE_SSL_REDIRECT = not DEBUG
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if not DEBUG else None
 SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '31536000' if not DEBUG else '0'))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
