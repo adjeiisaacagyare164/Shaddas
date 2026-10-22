@@ -1,17 +1,22 @@
 import os
+import secrets
 from pathlib import Path
 from datetime import timedelta
 import dotenv
 import dj_database_url
-
-# Load environment variables
-dotenv.load_dotenv()
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+dotenv.load_dotenv(BASE_DIR / '.env')
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'dev-only-change-this-key')
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = secrets.token_urlsafe(50)
+    else:
+        raise ImproperlyConfigured('SECRET_KEY must be set when DEBUG is False.')
 
 ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',') if host.strip()]
 
@@ -79,24 +84,26 @@ if DATABASE_URL:
             conn_health_checks=True,
         )
     }
-elif os.getenv('DB_ENGINE', '').endswith('postgresql') or 'postgresql' in os.getenv('DB_ENGINE', ''):
+elif 'postgresql' in os.getenv('DB_ENGINE', ''):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME', 'shadas_db'),
-            'USER': os.getenv('DB_USER', 'postgres'),
-            'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USER'],
+            'PASSWORD': os.environ['DB_PASSWORD'],
+            'HOST': os.environ['DB_HOST'],
             'PORT': os.getenv('DB_PORT', '5432'),
         }
     }
-else:
+elif DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+else:
+    raise ImproperlyConfigured('DATABASE_URL must be set when DEBUG is False.')
 
 # Custom User Model
 AUTH_USER_MODEL = 'accounts.User'
@@ -150,6 +157,7 @@ REST_FRAMEWORK = {
 
 # Simple JWT Configuration
 SIMPLE_JWT = {
+    'SIGNING_KEY': os.getenv('JWT_SIGNING_KEY', SECRET_KEY),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': False,
@@ -160,6 +168,7 @@ SIMPLE_JWT = {
 }
 
 # CORS Configuration
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     origin.strip()

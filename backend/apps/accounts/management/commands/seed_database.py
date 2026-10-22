@@ -1,4 +1,6 @@
+import os
 from django.core.management.base import BaseCommand
+from django.core.management.base import CommandError
 from apps.accounts.models import User
 from apps.shop.models import Shop
 from apps.products.models import Category, Product
@@ -9,6 +11,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write('Seeding Shaddas database...')
+        owner_password = os.getenv('SEED_OWNER_PASSWORD')
+        if not User.objects.filter(email='owner@shadas.com').exists() and not owner_password:
+            raise CommandError('Set SEED_OWNER_PASSWORD to create the seed owner account.')
 
         # 1. Create or get Owner User
         owner, created = User.objects.get_or_create(
@@ -21,9 +26,9 @@ class Command(BaseCommand):
             }
         )
         if created:
-            owner.set_password('owner123')
+            owner.set_password(owner_password)
             owner.save()
-            self.stdout.write(self.style.SUCCESS('Created owner account: owner@shadas.com / password: owner123'))
+            self.stdout.write(self.style.SUCCESS('Created owner account: owner@shadas.com'))
         else:
             self.stdout.write('Owner account already exists.')
 
