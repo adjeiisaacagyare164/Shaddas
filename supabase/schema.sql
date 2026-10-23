@@ -138,8 +138,8 @@ as $$
   );
 $$;
 
-revoke all on function is_shaddas_owner() from public;
-grant execute on function is_shaddas_owner() to anon, authenticated;
+revoke all on function is_shaddas_owner() from public, anon;
+grant execute on function is_shaddas_owner() to authenticated;
 
 alter table shops enable row level security;
 alter table categories enable row level security;

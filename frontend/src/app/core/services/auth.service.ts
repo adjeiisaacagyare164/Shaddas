@@ -26,7 +26,7 @@ export class AuthService {
         throw error;
       }
       await this.setOwnerFromSession(data.session);
-    });
+    }).catch(() => this.currentUser.set(null));
 
     supabaseClient.auth.onAuthStateChange((_event, session) => {
       queueMicrotask(() => void this.setOwnerFromSession(session));

@@ -23,8 +23,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
-                ,"output": "/"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
