@@ -98,13 +98,6 @@ import { ShopService } from '../../../core/services/shop.service';
             <svg *ngIf="!loading()" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
 
-          <!-- Quick Seed Creds Helper -->
-          <div class="seed-helper-box">
-            <span class="helper-title">Default Owner Credentials:</span>
-            <code>Email: owner&#64;shadas.com | Password: owner123</code>
-            <button type="button" class="fill-btn" (click)="fillDefaultCreds()">Auto-fill</button>
-          </div>
-
           <div class="back-to-store">
             <a routerLink="/">← Return to Public Website</a>
           </div>
@@ -117,9 +110,12 @@ import { ShopService } from '../../../core/services/shop.service';
       <div class="modal-backdrop" *ngIf="showForgotModal" (click)="showForgotModal = false">
         <div class="modal-card" (click)="$event.stopPropagation()">
           <h3>Reset Password</h3>
-          <p>For store security in Version 1, password resets can be performed directly via the Django admin console or terminal command.</p>
-          <p class="sub-hint">Contact platform admin or run: <code>python manage.py createsuperuser</code></p>
-          <button type="button" class="btn btn-primary btn-sm" (click)="showForgotModal = false">Understood</button>
+          <p>We will send a password reset link to the owner email entered on the sign-in form.</p>
+          <p class="sub-hint" *ngIf="resetMessage()">{{ resetMessage() }}</p>
+          <button type="button" class="btn btn-primary btn-sm" (click)="sendPasswordReset()" [disabled]="resetLoading() || !email.trim()">
+            {{ resetLoading() ? 'Sending...' : 'Send reset link' }}
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="showForgotModal = false">Close</button>
         </div>
       </div>
 
@@ -323,25 +319,39 @@ export class OwnerLoginComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  email = 'owner@shadas.com';
-  password = 'owner123';
+  email = '';
+  password = '';
   showPassword = false;
   loading = signal(false);
   errorMessage = signal<string | null>(null);
   showForgotModal = false;
+  resetLoading = signal(false);
+  resetMessage = signal<string | null>(null);
 
   private returnUrl = '/owner/dashboard';
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/owner/dashboard']);
-    }
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/owner/dashboard';
+    void this.authService.ready.then(() => {
+      if (this.authService.isAuthenticated()) {
+        this.router.navigate(['/owner/dashboard']);
+      }
+    });
   }
 
-  fillDefaultCreds(): void {
-    this.email = 'owner@shadas.com';
-    this.password = 'owner123';
+  sendPasswordReset(): void {
+    this.resetLoading.set(true);
+    this.resetMessage.set(null);
+    this.authService.sendPasswordReset(this.email.trim()).subscribe({
+      next: () => {
+        this.resetMessage.set('A password reset link has been sent if this email is registered.');
+        this.resetLoading.set(false);
+      },
+      error: error => {
+        this.resetMessage.set(error.message || 'Could not send a password reset email.');
+        this.resetLoading.set(false);
+      }
+    });
   }
 
   onLogin(event: Event): void {
@@ -360,7 +370,7 @@ export class OwnerLoginComponent implements OnInit {
       },
       error: err => {
         this.loading.set(false);
-        const detail = err.error?.detail || err.error?.errors?.non_field_errors?.[0] || 'Invalid email or password. Please try again.';
+        const detail = err.message || 'Invalid email or password. Please try again.';
         this.errorMessage.set(detail);
         this.toast.error(detail);
       }

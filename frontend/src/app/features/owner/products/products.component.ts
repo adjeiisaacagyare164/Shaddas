@@ -6,6 +6,7 @@ import { ProductService } from '../../../core/services/product.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { Product, ProductFormData } from '../../../core/models/product.model';
 import { Category } from '../../../core/models/category.model';
+import { MediaService } from '../../../core/services/media.service';
 import { CurrencyGhsPipe } from '../../../shared/pipes/currency-ghs.pipe';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
@@ -281,6 +282,16 @@ import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/
                   rows="3"
                 ></textarea>
                 <span class="form-hint">Paste high-quality product photo links. First image will be used as the primary display photo.</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif"
+                  multiple
+                  (change)="uploadProductImages($event)"
+                  [disabled]="uploadingImages()"
+                  class="form-input"
+                  aria-label="Upload product images"
+                >
+                <span class="form-hint" *ngIf="uploadingImages()">Uploading images to Supabase Storage...</span>
               </div>
 
               <!-- Stock & Featured Toggles -->
@@ -354,7 +365,7 @@ import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/
               <button 
                 type="submit" 
                 class="btn btn-primary"
-                [disabled]="savingProduct()"
+                [disabled]="savingProduct() || uploadingImages()"
               >
                 {{ savingProduct() ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Publish Product') }}
               </button>
@@ -660,6 +671,7 @@ import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/
 export class OwnerProductsComponent implements OnInit {
   private productService = inject(ProductService);
   private toast = inject(ToastService);
+  private mediaService = inject(MediaService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -667,6 +679,7 @@ export class OwnerProductsComponent implements OnInit {
   categories = signal<Category[]>([]);
   loading = signal(true);
   savingProduct = signal(false);
+  uploadingImages = signal(false);
 
   searchQuery = '';
   statusFilter = 'all';
@@ -779,6 +792,33 @@ export class OwnerProductsComponent implements OnInit {
   saveAsDraft(): void {
     this.formData.status = 'draft';
     this.onSaveProduct();
+  }
+
+  uploadProductImages(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const files = Array.from(input.files ?? []);
+    if (files.length === 0) return;
+
+    this.uploadingImages.set(true);
+    this.mediaService.uploadProductImages(files).subscribe({
+      next: urls => {
+        const existing = this.imagesRawInput
+          .split(/[\n,]+/)
+          .map(url => url.trim())
+          .filter(Boolean);
+        this.imagesRawInput = [...existing, ...urls].join('\n');
+        this.toast.success(`Uploaded ${urls.length} product image${urls.length === 1 ? '' : 's'}.`);
+      },
+      error: error => {
+        this.toast.error(error.message || 'Could not upload product images.');
+        this.uploadingImages.set(false);
+        input.value = '';
+      },
+      complete: () => {
+        this.uploadingImages.set(false);
+        input.value = '';
+      }
+    });
   }
 
   onSaveProduct(event?: Event): void {

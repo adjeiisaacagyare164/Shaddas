@@ -1,16 +1,12 @@
-import { Injectable, signal, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, of } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Observable, tap, catchError, from, map, of, switchMap } from 'rxjs';
 import { Shop } from '../models/shop.model';
-import { API_BASE_URL } from '../config/api.config';
+import { requireSupabaseClient, supabaseClient } from '../config/supabase.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
-  private http = inject(HttpClient);
-  private readonly API_URL = `${API_BASE_URL}/shop`;
-
   private defaultShop: Shop = {
     name: 'Shaddas',
     description: 'Discover luxury and everyday essentials curated for Ghana. Place orders directly via WhatsApp.',
@@ -28,32 +24,58 @@ export class ShopService {
   loading = signal<boolean>(false);
 
   constructor() {
-    this.fetchPublicShopInfo();
+    this.fetchPublicShopInfo().subscribe();
   }
 
   fetchPublicShopInfo(): Observable<Shop> {
     this.loading.set(true);
-    return this.http.get<Shop>(`${this.API_URL}/info/`).pipe(
-      tap(shop => {
-        this.shopInfo.set(shop);
-        this.loading.set(false);
-      }),
-      catchError(err => {
-        console.warn('Using default shop settings as fallback', err);
-        this.loading.set(false);
-        return of(this.defaultShop);
+
+    if (supabaseClient) {
+      return from(supabaseClient.from('shops').select('*').limit(1).maybeSingle()).pipe(
+        map(({ data, error }) => {
+          if (error) {
+            throw error;
+          }
+          return { ...this.defaultShop, ...(data ?? {}) } as Shop;
+        }),
+        tap(shop => {
+          this.shopInfo.set(shop);
+          this.loading.set(false);
+        }),
+        catchError(err => {
+          console.warn('Using default shop settings as fallback', err);
+          this.loading.set(false);
+          return of(this.defaultShop);
+        })
+      );
+    }
+
+    this.loading.set(false);
+    return of(this.defaultShop);
+  }
+
+  getOwnerShop(): Observable<Shop> {
+    return from(requireSupabaseClient().from('shops').select('*').limit(1).maybeSingle()).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        if (!data) throw new Error('The Shaddas shop record has not been initialized.');
+        return { ...this.defaultShop, ...data } as Shop;
       })
     );
   }
 
-  getOwnerShop(): Observable<Shop> {
-    return this.http.get<Shop>(`${this.API_URL}/manage/`);
-  }
-
   updateOwnerShop(data: Partial<Shop>): Observable<Shop> {
-    return this.http.patch<Shop>(`${this.API_URL}/manage/`, data).pipe(
-      tap(updated => {
+    const supabase = requireSupabaseClient();
+    return from(supabase.from('shops').select('id').limit(1).single()).pipe(
+      switchMap(({ data: shop, error }) => {
+        if (error) throw error;
+        return from(supabase.from('shops').update(data).eq('id', shop.id).select('*').single());
+      }),
+      map(({ data, error }) => {
+        if (error) throw error;
+        const updated = { ...this.defaultShop, ...(data ?? {}) } as Shop;
         this.shopInfo.set(updated);
+        return updated;
       })
     );
   }

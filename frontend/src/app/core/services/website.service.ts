@@ -1,16 +1,12 @@
-import { Injectable, signal, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, of } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Observable, tap, catchError, from, map, of, switchMap } from 'rxjs';
 import { HomepageContent } from '../models/website.model';
-import { API_BASE_URL } from '../config/api.config';
+import { requireSupabaseClient, supabaseClient } from '../config/supabase.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsiteService {
-  private http = inject(HttpClient);
-  private readonly API_URL = `${API_BASE_URL}/website`;
-
   private defaultContent: HomepageContent = {
     hero_badge: 'New Season Collection 2026',
     hero_title: 'Luxury & Everyday Essentials Curated for Ghana',
@@ -31,26 +27,55 @@ export class WebsiteService {
   homepageContent = signal<HomepageContent>(this.defaultContent);
 
   constructor() {
-    this.fetchPublicHomepage();
+    this.fetchPublicHomepage().subscribe();
   }
 
   fetchPublicHomepage(): Observable<HomepageContent> {
-    return this.http.get<HomepageContent>(`${this.API_URL}/homepage/`).pipe(
-      tap(content => this.homepageContent.set(content)),
-      catchError(err => {
-        console.warn('Fallback homepage CMS content', err);
-        return of(this.defaultContent);
+    if (supabaseClient) {
+      return from(supabaseClient.from('homepage_content').select('*').limit(1).maybeSingle()).pipe(
+        map(({ data, error }) => {
+          if (error) {
+            throw error;
+          }
+          const normalized = { ...this.defaultContent, ...(data ?? {}) } as HomepageContent;
+          normalized.about_points = Array.isArray(normalized.about_points) ? normalized.about_points : this.defaultContent.about_points;
+          return normalized;
+        }),
+        tap(content => this.homepageContent.set(content)),
+        catchError(err => {
+          console.warn('Fallback homepage CMS content', err);
+          return of(this.defaultContent);
+        })
+      );
+    }
+
+    return of(this.defaultContent);
+  }
+
+  getOwnerHomepage(): Observable<HomepageContent> {
+    return from(requireSupabaseClient().from('homepage_content').select('*').limit(1).single()).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        const normalized = { ...this.defaultContent, ...(data ?? {}) } as HomepageContent;
+        normalized.about_points = Array.isArray(normalized.about_points) ? normalized.about_points : this.defaultContent.about_points;
+        return normalized;
       })
     );
   }
 
-  getOwnerHomepage(): Observable<HomepageContent> {
-    return this.http.get<HomepageContent>(`${this.API_URL}/manage/homepage/`);
-  }
-
   updateOwnerHomepage(data: Partial<HomepageContent>): Observable<HomepageContent> {
-    return this.http.patch<HomepageContent>(`${this.API_URL}/manage/homepage/`, data).pipe(
-      tap(updated => this.homepageContent.set(updated))
+    const supabase = requireSupabaseClient();
+    return from(supabase.from('homepage_content').select('id').limit(1).single()).pipe(
+      switchMap(({ data: content, error }) => {
+        if (error) throw error;
+        return from(supabase.from('homepage_content').update(data).eq('id', content.id).select('*').single());
+      }),
+      map(({ data, error }) => {
+        if (error) throw error;
+        const updated = { ...this.defaultContent, ...(data ?? {}) } as HomepageContent;
+        this.homepageContent.set(updated);
+        return updated;
+      })
     );
   }
 }

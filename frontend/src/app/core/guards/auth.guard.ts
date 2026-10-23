@@ -6,12 +6,15 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isAuthenticated()) {
-    return true;
-  }
+  return authService.ready.then(() => {
+    if (authService.isAuthenticated()) {
+      return true;
+    }
 
-  // Redirect to owner login with returnUrl
-  return router.createUrlTree(['/owner/login'], {
+    return router.createUrlTree(['/owner/login'], {
+      queryParams: { returnUrl: state.url }
+    });
+  }).catch(() => router.createUrlTree(['/owner/login'], {
     queryParams: { returnUrl: state.url }
-  });
+  }));
 };
