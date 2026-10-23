@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, from, map } from 'rxjs';
+import { Observable, from, map, of, throwError } from 'rxjs';
 import { Product, ProductFormData } from '../models/product.model';
 import { Category } from '../models/category.model';
-import { requireSupabaseClient } from '../config/supabase.config';
+import { requireSupabaseClient, supabaseClient } from '../config/supabase.config';
 
 export interface DashboardStatsResponse {
   stats: {
@@ -39,7 +39,9 @@ export class ProductService {
 
   // Public Methods
   getCategories(): Observable<Category[]> {
-    return from(this.supabase.from('categories').select('*').order('name')).pipe(
+    if (!supabaseClient) return of([]);
+
+    return from(supabaseClient.from('categories').select('*').order('name')).pipe(
       map(({ data, error }) => {
         if (error) throw error;
         return (data ?? []) as Category[];
@@ -55,8 +57,10 @@ export class ProductService {
     sort?: string;
     limit?: number;
   }): Observable<Product[]> {
+    if (!supabaseClient) return of([]);
+
     const categoryJoin = params?.category ? '!inner' : '';
-    let query = this.supabase.from('products')
+    let query = supabaseClient.from('products')
       .select(`*, categories:categories${categoryJoin} (id, name, slug)`)
       .eq('status', 'published');
     if (params?.category) query = query.eq('categories.slug', params.category);
@@ -81,6 +85,10 @@ export class ProductService {
   }
 
   getProductDetail(idOrSlug: string): Observable<Product> {
+    if (!supabaseClient) {
+      return throwError(() => new Error('Product data is unavailable because Supabase is not configured.'));
+    }
+
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(idOrSlug);
     const column = isUuid ? 'id' : 'slug';
     return from(this.supabase.from('products')
