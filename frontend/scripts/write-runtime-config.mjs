@@ -1,8 +1,4 @@
-update public.shops
-set owner_id = 'OWNER_AUTH_USER_UUID'
-where id = (select id from public.shops order by created_at limit 1);update public.shops
-set owner_id = 'OWNER_AUTH_USER_UUID'
-where id = (select id from public.shops order by created_at limit 1);import { writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const supabaseUrl = process.env.SUPABASE_URL?.trim();
