@@ -18,27 +18,27 @@ where id = (select id from public.shops order by created_at limit 1);
 
 The owner portal verifies this UUID against the shop record. RLS then restricts management writes to that authenticated owner. The anon key is intentionally public; never put a service-role key in Angular or `runtime-config.js`.
 
-## Configure and deploy Angular
+## Configure and deploy Angular on Vercel
 
-Set the project URL and anon/publishable key in `frontend/public/runtime-config.js`:
+Create a Vercel project for the repository and set its **Root Directory** to `frontend`. The checked-in `frontend/vercel.json` selects the hosting build command, Angular output directory, and SPA route rewrite.
 
-```js
-window.__SHADDAS_CONFIG__ = {
-  supabaseUrl: 'https://YOUR_PROJECT_REF.supabase.co',
-  supabaseAnonKey: 'YOUR_SUPABASE_ANON_KEY'
-};
-```
+Add these Project Environment Variables in Vercel for **Production**, **Preview**, and **Development** as needed:
 
-The config file is loaded before Angular starts. Use the same values for local development and your deployment, or inject the file through your static host's deployment process. Do not commit service-role credentials.
+- `SUPABASE_URL`: the project URL, for example `https://YOUR_PROJECT_REF.supabase.co`
+- `SUPABASE_ANON_KEY`: the project's anon key, or use `SUPABASE_PUBLISHABLE_KEY` with the publishable key instead
 
-From `frontend`, install and build with:
+The build generates `public/runtime-config.js` from those variables before Angular bundles the app. The generated config contains only the public project URL and browser key. Never set a Supabase service-role or secret key in a frontend build environment.
+
+For a local production-style deployment build, set the same variables in the shell and run:
 
 ```sh
 npm ci
-npm run build
+npm run build:hosting
 ```
 
-The production output is `frontend/dist/frontend/browser`. Configure the static host to serve `index.html` for application routes. `frontend/vercel.json` includes the Vercel SPA rewrite.
+The normal `npm run build` does not generate or overwrite runtime config and remains suitable for local development. The deployable artifact is `dist/frontend/browser` when Vercel's project root is `frontend`.
+
+Set the Supabase Auth **Site URL** to the production domain and add the owner portal URL (`https://YOUR_SITE/owner/login`) to the redirect allow list. Add the corresponding preview domain or local URL only when needed. Keep public sign-ups disabled.
 
 ## Storage and product images
 
