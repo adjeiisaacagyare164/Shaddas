@@ -4,8 +4,17 @@ import { resolve } from 'node:path';
 const supabaseUrl = process.env.SUPABASE_URL?.trim();
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY?.trim() || process.env.SUPABASE_PUBLISHABLE_KEY?.trim();
 
+const runtimeConfig = {
+  supabaseUrl: supabaseUrl ?? '',
+  supabaseAnonKey: supabaseAnonKey ?? '',
+};
+
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Set SUPABASE_URL and SUPABASE_ANON_KEY (or SUPABASE_PUBLISHABLE_KEY) in the hosting environment.');
+  console.warn(
+    'Warning: SUPABASE_URL and SUPABASE_ANON_KEY (or SUPABASE_PUBLISHABLE_KEY) were not set. Writing an empty runtime config for local/dev builds.'
+  );
+  writeFileSync(resolve('public/runtime-config.js'), `window.__SHADDAS_CONFIG__ = ${JSON.stringify(runtimeConfig, null, 2)};\n`, 'utf8');
+  process.exit(0);
 }
 
 const parsedUrl = new URL(supabaseUrl);
@@ -26,5 +35,4 @@ if (isServiceRoleKey) {
   throw new Error('A Supabase secret key cannot be used in the browser. Use the anon or publishable key.');
 }
 
-const runtimeConfig = `window.__SHADDAS_CONFIG__ = ${JSON.stringify({ supabaseUrl, supabaseAnonKey }, null, 2)};\n`;
-writeFileSync(resolve('public/runtime-config.js'), runtimeConfig, 'utf8');
+writeFileSync(resolve('public/runtime-config.js'), `window.__SHADDAS_CONFIG__ = ${JSON.stringify(runtimeConfig, null, 2)};\n`, 'utf8');
