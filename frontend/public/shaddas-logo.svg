@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 120" role="img" aria-labelledby="title desc">
+  <title id="title">Shaddas Incorporated</title>
+  <desc id="desc">Red, black and white Shaddas T-shirt emblem and wordmark.</desc>
+  <g transform="translate(3 4) scale(.255)">
+    <path d="M202 44c-17 26-42 39-74 39H91L28 167l65 39 39-48v188l111-8 105 8V157l42 49 67-41-77-118-43-13c-22-7-40-18-54-37-15 25-38 39-66 39s-50-14-65-38z" fill="#fff" stroke="#101010" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M202 44c-17 26-42 39-74 39H91L28 167l65 39 39-48v188l55-4 17-97 83-112-45-24c-16-9-28-21-40-39z" fill="#ed1c24" stroke="#101010" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M95 204l37-46v188l43-3 15-82-98-98-63 5 66 36z" fill="#ed1c24"/>
+    <path d="M126 91c15 32 41 48 76 48s61-16 76-48" fill="none" stroke="#101010" stroke-width="18" stroke-linecap="round"/>
+    <path d="M47 125l113 111" fill="none" stroke="#fff" stroke-width="18"/>
+    <path d="M114 100l109 112L391 37" fill="none" stroke="#101010" stroke-width="20" stroke-linecap="square"/>
+    <path d="M230 212l85-120 53 24 60 94-66 42" fill="#fff" stroke="#101010" stroke-width="12" stroke-linejoin="round"/>
+    <path d="M279 155l-8 181M271 336l-94 4" fill="none" stroke="#101010" stroke-width="11"/>
+    <path d="M178 340c42-12 121-12 164 0" fill="none" stroke="#101010" stroke-width="16"/>
+  </g>
+  <text x="139" y="70" fill="#101010" font-family="Arial, Helvetica, sans-serif" font-size="39" font-weight="900" letter-spacing="1">SHADDAS</text>
+  <text x="142" y="95" fill="#101010" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="6">INCORPORATED</text>
+</svg>
